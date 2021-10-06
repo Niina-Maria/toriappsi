@@ -1,7 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
 const express = require('express')
 const app = express()
-//const port = 3000.envPORT
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -170,50 +169,6 @@ app.delete("/users/:userID", (req, res) => {
            res.json(user);
         }
 })
-
-
-    
-
-
-
-
-/*const dogs = [
-    {id: uuidv4(), name: "Max"},
-    {id: uuidv4(),name: "Bruno"},
-    {id: uuidv4(), name: "Spot"},
-    {id: uuidv4(), name: "Flora"}
-];
-
-
-/*app.get('/', (req, res) => {
-  res.send('Hello World!')
-})*/
-
-/*app.get('/dogs', (req, res) => {
-    //res.send('Hello dogs!');
-    res.json(dogs);
-})
-
-app.get('/dogs/:id', (req, res) =>{
-    const dog = dogs.find(d => d.id === req.params.id);
-    if(dog.id === undefined) {
-        res.sendStatus(404);
-    } 
-    else {
-        res.json(dog);
-    }
-})
-
-app.post('/dogs', (req, res) => {
-    dogs.push({ id: uuidv4(), name: req.body.name})
-    res.sendStatus(201);
-    
-});*/
-
-
-/*app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-})*/
 
 app.listen(app.get('port'), function() {
     console.log('Node app is running on port', app.get('port'));
