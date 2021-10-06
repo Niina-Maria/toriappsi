@@ -1,9 +1,12 @@
 const { v4: uuidv4 } = require('uuid');
 const express = require('express')
 const app = express()
-const port = 3000
+const port = 3000.envPORT
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.set('port', (process.env.PORT || 80));
+
 
 app.use(bodyParser.json());
 let items = [
