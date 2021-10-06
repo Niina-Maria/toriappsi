@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const express = require('express')
 const app = express()
-const port = 3000.envPORT
+//const port = 3000.envPORT
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -211,6 +211,10 @@ app.post('/dogs', (req, res) => {
 });*/
 
 
-app.listen(port, () => {
+/*app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
-})
+})*/
+
+app.listen(app.get('port'), function() {
+    console.log('Node app is running on port', app.get('port'));
+});
