@@ -45,7 +45,10 @@ let users = [
     }
 ];
 
+app.get("/", function(req, res) {
 
+    res.send("Tämä on ToriAppsi");
+});
 
 app.get('/items', (req, res) => {
 
@@ -69,10 +72,7 @@ app.post('/items', function (req, res) {
     res.sendStatus(201);
 });
 
-app.get("/", (res, req) => {
 
-    console.log("Toimii.")
-})
 
 app.get("/items/search", (req, res) => {
     const item = [];
