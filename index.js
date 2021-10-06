@@ -1,13 +1,14 @@
 const { v4: uuidv4 } = require('uuid');
 const express = require('express')
 const app = express()
+//const port = 3000
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(bodyParser.json());
+
 app.set('port', (process.env.PORT || 80));
 
-
-app.use(bodyParser.json());
 let items = [
     {
         postID: uuidv4(),
@@ -69,8 +70,6 @@ app.post('/items', function (req, res) {
 });
 
 app.get("/items/search", (req, res) => {
- 
-    //const location = items.find(d => d.location ===req.query.location);
     const item = [];
     for (var idx in items) {
         if(items[idx].location == req.query.location) {
@@ -169,6 +168,11 @@ app.delete("/users/:userID", (req, res) => {
            res.json(user);
         }
 })
+
+
+/*app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`)
+})*/
 
 app.listen(app.get('port'), function() {
     console.log('Node app is running on port', app.get('port'));
