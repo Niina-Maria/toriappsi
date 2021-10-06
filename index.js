@@ -69,6 +69,11 @@ app.post('/items', function (req, res) {
     res.sendStatus(201);
 });
 
+app.get("/", (res, req) => {
+
+    console.log("Toimii.")
+})
+
 app.get("/items/search", (req, res) => {
     const item = [];
     for (var idx in items) {
