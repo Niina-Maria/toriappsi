@@ -1,0 +1,320 @@
+openapi: 3.1.0
+info:
+  title: toriappsi
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  '/users/{userID}':
+    parameters:
+      - schema:
+          type: string
+        name: userID
+        in: path
+        required: true
+        description: Unique userID to be deleted
+    get:
+      summary: Get information on specific user
+      operationId: get-users-userID
+      responses:
+        '200':
+          description: User found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/publicuser'
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not Found
+      description: Retrieve information off the user with matching userID
+      security:
+        - httpBasic: []
+    delete:
+      summary: Delete specific user
+      operationId: delete-users-userID
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: UserID not found
+      description: This operation will delete user
+      security:
+        - httpBasic: []
+    put:
+      summary: Modify user
+      operationId: put-users-userID
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorresponse'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      description: Modify specific user
+      security:
+        - httpBasic: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userinfo'
+  /items:
+    post:
+      summary: ''
+      operationId: post-items
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/iteminfo'
+              examples: {}
+      description: Creates new post
+    get:
+      summary: ''
+      operationId: get-items
+      responses:
+        '200':
+          description: Items found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/iteminfo'
+        '404':
+          description: Items not Found
+      description: Retrieve all the items for sale
+  /users:
+    parameters: []
+    post:
+      summary: Create a new user
+      operationId: post-users
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userinfo'
+              examples:
+                IDnumero:
+                  value:
+                    userID: 12345
+        '400':
+          description: Missing or incorrect required information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorresponse'
+        '409':
+          description: Email already taken
+      description: Create a new user
+    get:
+      summary: ''
+      operationId: get-users
+      responses:
+        '200':
+          description: Users found
+        '401':
+          description: Unauthorized
+        '404':
+          description: Users not Found
+      description: Gets all users
+  '/items/{postID}':
+    parameters:
+      - schema:
+          type: string
+        name: postID
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: Item found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/iteminfo'
+        '404':
+          description: Item not Found
+      operationId: get-items-postID
+      description: Retrieve the information of specific item
+    put:
+      summary: Modifies item
+      operationId: put-items-postID
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+      description: Modifies item listing
+      security:
+        - httpBasic: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/iteminfo'
+    delete:
+      summary: Deletes specific post
+      operationId: delete-items-postID
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: PostID not found
+      description: Deletes post
+      security:
+        - httpBasic: []
+  /items/search:
+    get:
+      summary: Searches items per parameter
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/iteminfo'
+      operationId: get-items-search
+      description: 'Retrieves items based on the search parameter.Either location, category or date.'
+components:
+  schemas:
+    errorresponse:
+      title: errorresponse
+      type: object
+      properties:
+        errorDescription:
+          type: string
+    userinfo:
+      title: userinfo
+      type: object
+      examples:
+        - userID: string
+          user:
+            userName: string
+            contact: string
+          dateOfBirth: string
+          email: string
+      properties:
+        user:
+          type: object
+          required:
+            - userName
+            - contact
+          properties:
+            userName:
+              type: string
+            contact:
+              type: string
+        dateOfBirth:
+          type: string
+        email:
+          type: string
+        userID:
+          type: string
+      required:
+        - user
+        - dateOfBirth
+        - email
+    iteminfo:
+      title: iteminfo
+      type: object
+      examples:
+        - postID: string
+          title: string
+          description: string
+          images:
+            - string
+          price: string
+          user:
+            userName: string
+            contact: string
+          category: string
+          date: string
+          delivery:
+            pickup: true
+            post: true
+          location: string
+        - postID: string
+          title: string
+          description: string
+          images:
+            - string
+          price: string
+          userID:
+            userName: string
+            contact: string
+          category: string
+          date: string
+          delivery:
+            pickup: true
+            post: true
+      properties:
+        postID:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        images:
+          type: array
+          items:
+            type: string
+        price:
+          type: string
+        user:
+          type: object
+          properties:
+            userName:
+              type: string
+            contact:
+              type: string
+        category:
+          type: string
+        date:
+          type: string
+        delivery:
+          type: object
+          properties:
+            pickup:
+              type: boolean
+            post:
+              type: boolean
+        location:
+          type: string
+    publicuser:
+      title: publicuser
+      type: object
+      properties:
+        user:
+          type: object
+          properties:
+            userName:
+              type: string
+            contact:
+              type: string
+        postID:
+          type: string
+        title:
+          type: string
+  securitySchemes:
+    httpBasic:
+      type: http
+      scheme: basic
